@@ -19,10 +19,10 @@ public class Main {
 
         );
 
-        boolean percentagePass = candidate.getPercentage() >= job.getminimumPercentage();
-        boolean backlogPass = candidate.getBacklogs() <= job.getmaximumBacklogs();
-        boolean yearPass = candidate.getGraduationYear() == job.getrequiredGraduationYear();
-        boolean eligible = percentagePass && backlogPass && yearPass;
+        EligibilityChecker  checker = new EligibilityChecker();
+        
+
+        
 
         System.out.println("=============================================");
         System.out.println("Placement Eligibilty Result");
@@ -33,24 +33,9 @@ public class Main {
         System.out.println("Role: " + job.getRole());
         System.out.println();
 
-        if(percentagePass) {
-            System.out.println("Percentage  :  PASS ");
-        }else{
-            System.out.println("Percentage  :  FAIL ");
-        }
+        boolean eligible = checker.check(candidate,job);
 
-        if(backlogPass) {
-            System.out.println("Backlogs  :  PASS ");
-        }else{
-            System.out.println("Backlogs  :  FAIL");
-        }
-
-        if(yearPass) {
-            System.out.println("Graduation Year  :  PASS ");
-        }else{
-            System.out.println("Graduation Year  :  FAIL ");
-        }
-
+        
         System.out.println();
 
         if(eligible) {
