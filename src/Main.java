@@ -1,58 +1,96 @@
 import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
-        String name = sc.next();
-        double percentage = sc.nextDouble();
-        int backlogs = sc.nextInt();
-        int graduationYear = sc.nextInt();
+        String name = scanner.next();
+        double percentage = scanner.nextDouble();
+        int backlogs = scanner.nextInt();
+        int graduationYear = scanner.nextInt();
 
-        Candidate candidate  = new Candidate(name,percentage,backlogs,graduationYear);
+        int skillCount = scanner.nextInt();
+        String[] skills = new String[skillCount];
 
-        Job job = new Job(
-            "Infosys",
-            "Java Developer",
-            65.0,
-            0,
-            2026
-
-        );
-
-        EligibilityChecker  checker = new EligibilityChecker();
-        
-
-        
-
-        System.out.println("=============================================");
-        System.out.println("Placement Eligibilty Result");
-        System.out.println("=============================================");
-
-        System.out.println("Candidate: " + candidate.getName());
-        System.out.println("Company: " + job.getCompany());
-        System.out.println("Role: " + job.getRole());
-        System.out.println();
-
-        boolean eligible = checker.check(candidate,job);
-
-        
-        System.out.println();
-
-        if(eligible) {
-            System.out.println("Final Result  :  PASS ");
-        }else{
-            System.out.println("Final Result  :  FAIL ");
+        for (int i = 0; i < skillCount; i++) {
+            skills[i] = scanner.next();
         }
 
+        Candidate candidate = new Candidate(
+            name,
+            percentage,
+            backlogs,
+            graduationYear,
+            skills
+        );
 
-        System.out.println("=============================================");
+        int jobCount = scanner.nextInt();
+        Job[] jobs = new Job[jobCount];
 
-       
+        for (int i = 0; i < jobCount; i++) {
+            String company = scanner.next();
+            String role = scanner.next();
+            double minimumPercentage = scanner.nextDouble();
+            int maximumBacklogs = scanner.nextInt();
+            int requiredGraduationYear = scanner.nextInt();
 
-        sc.close();
+            int requiredSkillCount = scanner.nextInt();
+            String[] requiredSkills = new String[requiredSkillCount];
 
+            for (int j = 0; j < requiredSkillCount; j++) {
+                requiredSkills[j] = scanner.next();
+            }
+
+            jobs[i] = new Job(
+                company,
+                role,
+                minimumPercentage,
+                maximumBacklogs,
+                requiredGraduationYear,
+                requiredSkills
+            );
+        }
+
+        System.out.println();
+        System.out.println("AVAILABLE JOBS");
+
+        for (int i = 0; i < jobs.length; i++) {
+            System.out.println(
+                (i + 1) + ". " +
+                jobs[i].getCompany() +
+                " - " +
+                jobs[i].getRole()
+            );
+        }
+
+        int selectedJobNumber = scanner.nextInt();
+        Job selectedJob = jobs[selectedJobNumber - 1];
+
+        EligibilityChecker checker = new EligibilityChecker();
+
+        System.out.println();
+        System.out.println("================================");
+        System.out.println("PLACEMENT ELIGIBILITY RESULT");
+        System.out.println("================================");
+
+        System.out.println();
+        System.out.println("Candidate : " + candidate.getName());
+        System.out.println("Company : " + selectedJob.getCompany());
+        System.out.println("Role : " + selectedJob.getRole());
+        System.out.println();
+
+        boolean eligible = checker.check(candidate, selectedJob);
+
+        System.out.println();
+
+        if (eligible) {
+            System.out.println("Final Result : ELIGIBLE");
+        } else {
+            System.out.println("Final Result : NOT ELIGIBLE");
+        }
+
+        System.out.println("================================");
+
+        scanner.close();
     }
-    
 }
-
-
